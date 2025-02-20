@@ -5,12 +5,6 @@ import pygame
 from constants import *
 
 
-def handle_exit_signal():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            return
-
-
 def main():
     pygame.init()
     print("Starting Asteroids!")
@@ -21,7 +15,11 @@ def main():
     # Our main game loop boys and girls!!!
     continue_game_loop = True
     while continue_game_loop:
-        handle_exit_signal()
+        # Handle an exit/close window signal
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+
         pygame.display.flip()
 
 
