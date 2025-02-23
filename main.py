@@ -3,6 +3,8 @@
 # throughout this file
 import pygame
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 from constants import *
 
 
@@ -18,12 +20,18 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0
+
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable)
+
     player_start_x = SCREEN_WIDTH / 2
     player_start_y = SCREEN_HEIGHT / 2
     player = Player(player_start_x, player_start_y)
+    field = AsteroidField()
 
 
     # Our main game loop boys and girls!!!
@@ -37,6 +45,11 @@ def main():
 
         for thing in updateable:
             thing.update(dt)
+        for ast in asteroids:
+            if ast.is_colliding(player):
+                print("Game Over!")
+                return
+            print(ast)
         for thing in drawable:
             thing.draw(screen)
 
