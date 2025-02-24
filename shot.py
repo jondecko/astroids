@@ -1,11 +1,13 @@
 import pygame
 from pygame import Color
 from circleshape import CircleShape
+from constants import *
 
-class Asteroid(CircleShape):
+class Shot(CircleShape):
 
-    def __init__(self, x, y, radius):
-        super().__init__(x, y, radius)
+    def __init__(self, x, y, rotation):
+        super().__init__(x, y, SHOT_RADIUS)
+        self.rotation = pygame.Vector2(0, 1).rotate(rotation)
 
 
     def draw(self, screen):
@@ -19,4 +21,4 @@ class Asteroid(CircleShape):
 
 
     def update(self, dt):
-        self.position += (self.velocity * dt)
+        self.position += (self.velocity * self.rotation * dt)
