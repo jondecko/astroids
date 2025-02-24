@@ -10,6 +10,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shot_timer = 0
 
 
     #pass in the player class
@@ -23,8 +24,10 @@ class Player(CircleShape):
 
 
     def shoot(self):
-        shot = Shot(self.position.x, self.position.y, self.rotation)
-        shot.velocity = PLAYER_SHOOT_SPEED
+        if self.shot_timer >= PLAYER_SHOOT_COOLDOWN:
+            shot = Shot(self.position.x, self.position.y, self.rotation)
+            shot.velocity = PLAYER_SHOOT_SPEED
+            self.shot_timer = 0
 
 
     def draw(self, screen):
@@ -46,6 +49,7 @@ class Player(CircleShape):
 
 
     def update(self, dt):
+        self.shot_timer += dt
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
